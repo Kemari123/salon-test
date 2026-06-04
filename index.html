@@ -13,23 +13,47 @@
 </head>
 <body>
 
+  <!-- Navigation Backdrop Overlay (for beautiful tapping to close side dashboard on mobile) -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
   <!-- ═══════════ NAVBAR ═══════════ -->
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
       <a href="#home" class="nav-logo">
-        <span class="logo-gem">✦</span>
-        <span class="logo-text">Kisii Dreadlocks</span>
+        <span class="logo-gem">KDP</span>
+        <span class="logo-text">Kisii Dreadlocks Parlor</span>
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#home"     class="nl">Home</a></li>
-        <li><a href="#about"    class="nl">About</a></li>
-        <li><a href="#services" class="nl">Services</a></li>
-        <li><a href="#gallery"  class="nl">Gallery</a></li>
-        <li><a href="#contact"  class="nl">Contact</a></li>
-        <li><a href="#location" class="nl">Location</a></li>
+        <!-- Mobile Drawer Header (Only visible inside mobile menu drawer) -->
+        <li class="nav-drawer-header">
+          <span class="logo-gem">KDP</span>
+          <span class="logo-text">Kisii Dreadlocks Parlor</span>
+          <p class="drawer-subtitle">Neat &amp; Quality is What We Offer</p>
+        </li>
+        
+        <!-- Navigation Links with elegant system icons (hidden on desktop via CSS, active on mobile) -->
+        <li><a href="#home"     class="nl"><i class="fas fa-home"></i>Home</a></li>
+        <li><a href="#about"    class="nl"><i class="fas fa-crown"></i>About</a></li>
+        <li><a href="#services" class="nl"><i class="fas fa-cut"></i>Services</a></li>
+        <li><a href="#gallery"  class="nl"><i class="fas fa-images"></i>Gallery</a></li>
+        <li><a href="#contact"  class="nl"><i class="fas fa-phone"></i>Contact</a></li>
+        <li><a href="#location" class="nl"><i class="fas fa-map-marker-alt"></i>Location</a></li>
+
+        <!-- Mobile Drawer Footer Tools (Only visible inside mobile menu drawer) -->
+        <li class="nav-drawer-footer">
+          <p>Elimu Umoja Center, 2nd Floor, Kisii</p>
+          <div class="drawer-btns">
+            <a href="https://wa.me/254715410986?text=Hello!%20I%20would%20like%20to%20book%20an%20appointment." target="_blank" rel="noopener" class="dr-btn dr-wa">
+              <i class="fab fa-whatsapp"></i> Chat
+            </a>
+            <a href="tel:+254715410986" class="dr-btn dr-call">
+              <i class="fas fa-phone"></i> Call
+            </a>
+          </div>
+        </li>
       </ul>
     </div>
   </nav>
@@ -105,11 +129,10 @@
       <h2 class="sec-title text-center">Our <em>Services</em></h2>
       <p class="sec-sub text-center">Tap any service to book via WhatsApp or call us directly.</p>
 
-      <!-- First 4 always visible -->
+      <!-- First 4 always visible (Logos/Shapes removed for all services) -->
       <div class="svc-grid" id="svcGrid">
 
         <div class="svc-card">
-          <div class="svc-icon"><i class="fas fa-seedling"></i></div>
           <div class="svc-body">
             <h3>Natural Locs Installation</h3>
             <p>Start your loc journey with expert installation tailored to your hair type.</p>
@@ -122,7 +145,6 @@
         </div>
 
         <div class="svc-card">
-          <div class="svc-icon"><i class="fas fa-star"></i></div>
           <div class="svc-body">
             <h3>Locs Retouch (Wax)</h3>
             <p>Keep your locs tight and fresh with a professional wax retouch.</p>
@@ -135,7 +157,6 @@
         </div>
 
         <div class="svc-card">
-          <div class="svc-icon"><i class="fas fa-sync-alt"></i></div>
           <div class="svc-body">
             <h3>Interlocking</h3>
             <p>Clean, long-lasting roots using precise interlocking technique.</p>
@@ -148,7 +169,6 @@
         </div>
 
         <div class="svc-card">
-          <div class="svc-icon"><i class="fas fa-cut"></i></div>
           <div class="svc-body">
             <h3>Crotcheting Maintenance</h3>
             <p>Well-formed, tidy locs with skilled crotcheting care.</p>
@@ -162,12 +182,11 @@
 
       </div>
 
-      <!-- Hidden extra services -->
+      <!-- Hidden extra services (Logos/Shapes removed for all services) -->
       <div id="moreServices" class="svc-more">
         <div class="svc-grid">
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-magic"></i></div>
             <div class="svc-body">
               <h3>Artificial Locs Installation</h3>
               <p>Instant loc look with beautifully installed artificial locs.</p>
@@ -180,7 +199,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-undo"></i></div>
             <div class="svc-body">
               <h3>Artificial Locs Undoing</h3>
               <p>Safe removal of artificial locs, protecting your natural hair.</p>
@@ -193,7 +211,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-plus-circle"></i></div>
             <div class="svc-body">
               <h3>Sister Locs Extension</h3>
               <p>Add artificial sister locs to your hair without starting the full sister locs journey.</p>
@@ -206,7 +223,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-palette"></i></div>
             <div class="svc-body">
               <h3>Locs Dyeing</h3>
               <p>Vibrant or subtle loc colouring with safe, quality dyes.</p>
@@ -219,7 +235,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-tools"></i></div>
             <div class="svc-body">
               <h3>Locs Repair</h3>
               <p>Restore damaged or thinning locs with expert repair treatment.</p>
@@ -232,7 +247,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-shower"></i></div>
             <div class="svc-body">
               <h3>Locs Detox</h3>
               <p>Deep cleanse removing buildup and impurities for healthy locs.</p>
@@ -245,7 +259,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-crown"></i></div>
             <div class="svc-body">
               <h3>Sister Locs</h3>
               <p>Delicate, versatile sister locs — a smaller, intricate traditional style.</p>
@@ -258,7 +271,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-crown"></i></div>
             <div class="svc-body">
               <h3>Sister Locs Retie</h3>
               <p>Keep your sister locs looking immaculate with a professional retie.</p>
@@ -271,7 +283,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-star-half-alt"></i></div>
             <div class="svc-body">
               <h3>Retouch + Spanish</h3>
               <p>Retouch combined with a Spanish treatment for extra nourishment.</p>
@@ -284,7 +295,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-wind"></i></div>
             <div class="svc-body">
               <h3>Hair Plaiting</h3>
               <p>Creative, elegant plaiting styles for a polished look.</p>
@@ -297,7 +307,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-eye"></i></div>
             <div class="svc-body">
               <h3>Eyebrow Trimming</h3>
               <p>Clean, shaped brows — razor (Ksh 50) or thread (Ksh 150).</p>
@@ -310,7 +319,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-hand-sparkles"></i></div>
             <div class="svc-body">
               <h3>Nails</h3>
               <p>Professional nail care and styling. Pricing varies — chat or call us for details.</p>
@@ -323,7 +331,6 @@
           </div>
 
           <div class="svc-card">
-            <div class="svc-icon"><i class="fas fa-leaf"></i></div>
             <div class="svc-body">
               <h3>Hair Treatment</h3>
               <p>Nourishing treatment to strengthen and revitalise hair and scalp.</p>
@@ -483,7 +490,7 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div class="footer-brand">
-        <span class="logo-gem">✦</span>
+        <span class="logo-gem">KDP</span>
         <span class="footer-name">Kisii Dreadlocks Parlor</span>
         <p>Neat &amp; Quality is What We Offer</p>
         <p>Elimu Umoja Center, 2nd Floor, Kisii Town</p>

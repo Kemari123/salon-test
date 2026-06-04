@@ -3,13 +3,15 @@
 function id(s){return document.getElementById(s)}
 function qsa(s){return document.querySelectorAll(s)}
 
-/* ══ NAVBAR + SCROLL ══ */
+/* ══ NAVBAR + MOBILE DRAWER (DASHBOARD) SCROLL ══ */
 var navToggle = id('navToggle');
 var navLinks  = id('navLinks');
+var navOverlay = id('navOverlay');
 
 function closeMenu(){
   if(navLinks)  navLinks.classList.remove('open');
   if(navToggle) navToggle.classList.remove('open');
+  if(navOverlay) navOverlay.classList.remove('open');
   document.body.style.overflow='';
 }
 
@@ -17,8 +19,14 @@ if(navToggle){
   navToggle.addEventListener('click',function(){
     var open=navLinks.classList.toggle('open');
     navToggle.classList.toggle('open',open);
+    if(navOverlay) navOverlay.classList.toggle('open',open);
+    // Setting overflow: hidden on the body keeps the view premium but the menu container itself is 100% scrollable on phone!
     document.body.style.overflow=open?'hidden':'';
   });
+}
+
+if(navOverlay) {
+  navOverlay.addEventListener('click', closeMenu);
 }
 
 /* active link on scroll + back-to-top */
@@ -42,6 +50,7 @@ if(bt) bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'s
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href^="#"]');
   if(!a) return;
+  // If clicking on quick links in footer or inside navigation drawer, close menu
   var tgt=document.querySelector(a.getAttribute('href'));
   if(!tgt) return;
   e.preventDefault();
@@ -125,20 +134,55 @@ function makeItem(src,idx){
   return div;
 }
 
+function collapseGallery() {
+  if (!galGrid) return;
+  galGrid.innerHTML = '';
+  galShown = 0;
+  showBatch(); // Re-shows the initial BATCH of 6
+  updBtn();
+  
+  // Smoothly scroll back to top of gallery section
+  var s = id('gallery');
+  if (s) {
+    var top = s.getBoundingClientRect().top + window.pageYOffset - 70;
+    window.scrollTo({top: top, behavior: 'smooth'});
+  }
+}
+
 function updBtn(){
   var btn=id('galMoreBtn'),lbl=id('galMoreLabel');
   if(!btn) return;
-  if(galShown>=galLoaded.length){
+  
+  // Toggle icon and label depending on if we have expanded everything
+  var icon = btn.querySelector('i');
+  
+  if(galShown >= galLoaded.length && galLoaded.length > GAL_BATCH){
+    btn.disabled=false;
+    if(lbl) lbl.textContent='View Less';
+    if(icon) icon.className='fas fa-chevron-up';
+  } else if(galShown >= galLoaded.length) {
     btn.disabled=true;
     if(lbl) lbl.textContent='All Images Shown';
+    if(icon) icon.className='fas fa-images';
   } else {
     btn.disabled=false;
     if(lbl) lbl.textContent='View All Images';
+    if(icon) icon.className='fas fa-images';
   }
 }
 
 var galBtn=id('galMoreBtn');
-if(galBtn) galBtn.addEventListener('click',function(){if(!galBtn.disabled)showBatch()});
+if(galBtn) {
+  galBtn.addEventListener('click',function(){
+    if(!galBtn.disabled) {
+      if(galShown >= galLoaded.length) {
+        collapseGallery();
+      } else {
+        showBatch();
+      }
+    }
+  });
+}
 
 /* ══ LIGHTBOX ══ */
 var lbIdx=0;

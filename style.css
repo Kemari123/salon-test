@@ -5,10 +5,10 @@
 :root {
   --gold:    #C9A84C;
   --gold2:   #a8852e;
-  --black:   #0a0a0a;
-  --dark:    #111111;
-  --dark2:   #1a1a1a;
-  --dark3:   #242424;
+  --black:   #050505;
+  --dark:    #0c0c0c;
+  --dark2:   #121212;
+  --dark3:   #1a1a1a;
   --border:  rgba(201,168,76,0.22);
   --bs:      rgba(255,255,255,0.07);
   --white:   #ffffff;
@@ -70,11 +70,45 @@ button{cursor:pointer;border:none;background:none;font-family:var(--ff-b)}
   justify-content:space-between;
   gap:12px;
 }
-.nav-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.logo-gem{color:var(--gold);font-size:.85rem}
-.logo-text{font-family:var(--ff-h);font-size:1.1rem;font-weight:600;color:var(--white);white-space:nowrap}
+.nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-gem{
+  color: var(--black);
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  font-family: var(--ff-b);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 7px;
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  text-shadow: none;
+  box-shadow: 0 2px 10px rgba(201,168,76,0.2);
+  transition: transform var(--t);
+}
+.nav-logo:hover .logo-gem{transform:scale(1.08)}
+.logo-text{font-family:var(--ff-h);font-size:1.15rem;font-weight:600;color:var(--white);white-space:nowrap}
 
-/* desktop links */
+/* Navigation Overlay for Drawer */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t);
+  backdrop-filter: blur(4px);
+}
+.nav-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* desktop links default style */
 .nav-links{display:flex;align-items:center;gap:0}
 .nl{
   font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
@@ -106,7 +140,7 @@ button{cursor:pointer;border:none;background:none;font-family:var(--ff-b)}
     radial-gradient(ellipse 50% 50% at 20% 80%,rgba(201,168,76,.05) 0%,transparent 55%);
   pointer-events:none;
 }
-.hero-content{position:relative;z-index:2;text-align:center;padding:40px 20px;max-width:720px;width:100%}
+.hero-content{position:relative;z-index:2;text-align:center;padding:40px 20px;max-width:720px;width:100%;margin-top:-60px}
 .hero-eyebrow{font-size:.68rem;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:block}
 .hero-title{
   font-family:var(--ff-h);
@@ -192,22 +226,17 @@ button{cursor:pointer;border:none;background:none;font-family:var(--ff-b)}
 }
 .svc-card:hover{border-color:var(--border);box-shadow:0 8px 32px rgba(201,168,76,.12);transform:translateY(-3px)}
 .svc-card:hover::before{transform:scaleX(1)}
-.svc-icon{
-  width:44px;height:44px;background:rgba(201,168,76,.08);
-  border:1px solid var(--border);border-radius:11px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.05rem;color:var(--gold);margin-bottom:16px;
-  transition:all var(--t);flex-shrink:0;
-}
-.svc-card:hover .svc-icon{background:var(--gold);color:var(--black)}
+
+/* No svc-icon anymore as they are deleted from html */
+
 .svc-body{flex:1}
-.svc-body h3{font-family:var(--ff-h);font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:7px}
-.svc-body p{font-size:.81rem;color:var(--text);line-height:1.65;margin-bottom:10px}
+.svc-body h3{font-family:var(--ff-h);font-size:1.15rem;font-weight:600;color:var(--white);margin-bottom:10px}
+.svc-body p{font-size:.81rem;color:var(--text);line-height:1.65;margin-bottom:12px}
 .svc-price{
   display:inline-block;background:rgba(201,168,76,.1);
   border:1px solid rgba(201,168,76,.25);color:var(--gold);
   font-size:.73rem;font-weight:700;letter-spacing:.06em;
-  padding:4px 12px;border-radius:20px;margin-bottom:16px;
+  padding:4px 12px;border-radius:20px;margin-bottom:18px;
 }
 .svc-actions{display:flex;flex-direction:column;gap:7px;margin-top:auto}
 .svc-btn{
@@ -432,8 +461,39 @@ button{cursor:pointer;border:none;background:none;font-family:var(--ff-b)}
 .back-top:hover{background:var(--gold);color:var(--black)}
 
 /* ══════════════════════════════════════════
-   RESPONSIVE
+   RESPONSIVE (DESKTOP / LAPTOPS)
 ═══════════════════════════════════════════ */
+@media(min-width: 769px) {
+  .nav-links {
+    display: flex !important;
+    position: static !important;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    width: auto !important;
+    height: auto !important;
+    background: none !important;
+    border-left: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    flex-direction: row !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    transform: none !important;
+    overflow-y: visible !important;
+    box-shadow: none !important;
+  }
+  .nl i {
+    display: none !important;
+  }
+  .nav-overlay {
+    display: none !important;
+  }
+  .nav-drawer-header, .nav-drawer-footer {
+    display: none !important;
+  }
+}
+
 @media(max-width:900px){
   .about-grid{grid-template-columns:240px 1fr;gap:36px}
   .footer-inner{grid-template-columns:1fr 1fr}
@@ -443,25 +503,154 @@ button{cursor:pointer;border:none;background:none;font-family:var(--ff-b)}
   .loc-hours{padding:28px 24px}
 }
 
+/* ══════════════════════════════════════════
+   RESPONSIVE (MOBILE & TABLETS)
+═══════════════════════════════════════════ */
 @media(max-width:768px){
   .section{padding:64px 0}
-  .nav-toggle{display:flex}
-  .nav-links{
-    display:none;
-    position:fixed;inset:0;top:var(--nav-h);
-    background:rgba(8,8,8,.98);
-    flex-direction:column;justify-content:center;align-items:center;
-    gap:4px;backdrop-filter:blur(16px);z-index:9998;
+  
+  /* Always show elegant premium gold accent line framing on mobile cards since hover is not active */
+  .svc-card::before {
+    transform: scaleX(1);
+    opacity: 0.5;
   }
-  .nav-links.open{display:flex}
-  .nl{font-size:.92rem;letter-spacing:.18em;padding:14px 28px}
+
+  /* Hamburger layout */
+  .nav-toggle{display:flex}
+
+  /* Responsive styling for Mobile Navigation Drawer (which acts as a phone Dashboard) */
+  .nav-links {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 290px;
+    height: 100vh;
+    background: rgba(10, 10, 10, 0.98);
+    border-right: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 10000;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 24px 20px 40px;
+    gap: 8px;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 8px 0 32px rgba(0,0,0,0.8);
+  }
+  .nav-links.open {
+    transform: translateX(0);
+  }
+
+  /* Items in the menu */
+  .nl {
+    font-size: .84rem;
+    letter-spacing: .12em;
+    padding: 12px 16px;
+    border-radius: var(--r);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    transition: all var(--t);
+    text-align: left;
+    white-space: nowrap;
+  }
+  .nl i {
+    color: var(--gold);
+    font-size: 0.95rem;
+    width: 18px;
+    text-align: center;
+  }
+  .nl:hover, .nl.active {
+    color: var(--gold);
+    background: rgba(201, 168, 76, 0.08);
+    border-bottom-color: rgba(201, 168, 76, 0.25);
+  }
+
+  /* Drawer Header */
+  .nav-drawer-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    padding-top: 36px;
+  }
+  .drawer-subtitle {
+    font-size: 0.68rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  /* Drawer Footer Actions */
+  .nav-drawer-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .nav-drawer-footer p {
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-align: center;
+  }
+  .drawer-btns {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .dr-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: var(--r);
+    transition: all var(--t);
+  }
+  .dr-wa {
+    background: var(--green);
+    color: #fff;
+  }
+  .dr-wa:hover {
+    background: #1faf52;
+  }
+  .dr-call {
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    background: rgba(201, 168, 76, 0.05);
+  }
+  .dr-call:hover {
+    background: rgba(201, 168, 76, 0.12);
+  }
+
   .about-grid{grid-template-columns:1fr;gap:32px}
   .about-photo{max-width:260px;margin:0 auto}
   .gal-grid{grid-template-columns:repeat(2,1fr)}
   .hours-cards{grid-template-columns:1fr;max-width:380px}
   .footer-inner{grid-template-columns:1fr;gap:32px}
-  .hero-btns{flex-direction:column;align-items:center}
-  .hbtn{width:100%;max-width:260px;justify-content:center}
+  
+  .hero-btns{flex-direction:column;align-items:center;width:100%}
+  .hbtn{width:100%;max-width:280px;justify-content:center}
   .contact-cards{grid-template-columns:1fr}
 }
 

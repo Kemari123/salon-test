@@ -59,13 +59,57 @@ if(bt) bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'s
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href^="#"]');
   if(!a) return;
-  // If clicking on quick links in footer or inside navigation drawer, close menu
   var tgt=document.querySelector(a.getAttribute('href'));
   if(!tgt) return;
   e.preventDefault();
   closeMenu();
-  var top=tgt.getBoundingClientRect().top+window.pageYOffset-65;
-  window.scrollTo({top:top,behavior:'smooth'});
+  // Brief timeout allows mobile browsers to update container/body overflow first to prevent scroll lockups
+  setTimeout(function() {
+    var top=tgt.getBoundingClientRect().top+window.pageYOffset-65;
+    window.scrollTo({top:top,behavior:'smooth'});
+  }, 100);
+});
+
+/* ══ ROBUST WHATSAPP REDIRECT FOR ALL SOCIAL BROWSER ENGAGEMENTS (TIKTOK/INSTAGRAM) ══ */
+document.addEventListener('click', function(e) {
+  var a = e.target.closest('a[href*="whatsapp.com"], a[href*="wa.me"]');
+  if (!a) return;
+  
+  // Ensure the body scroll lock is fully released first
+  closeMenu();
+  
+  var phone = "254715410986";
+  var text = "Hello Kisii Dreadlocks Parlor, I would like to book an appointment.";
+  
+  // Extract custom text package if present
+  var href = a.getAttribute('href');
+  var textMatch = href.match(/[?&]text=([^&]+)/);
+  if (textMatch) {
+    try {
+      text = decodeURIComponent(textMatch[1]);
+    } catch(err) {
+      text = textMatch[1].replace(/%20/g, ' ');
+    }
+  }
+  
+  var waMeUrl = "https://wa.me/" + phone + "?text=" + encodeURIComponent(text);
+  var customScheme = "whatsapp://send?phone=" + phone + "&text=" + encodeURIComponent(text);
+  
+  var isMobile = /Android|iPhone|iPad|iPod|TikTok|Instagram|FB_IAB|FBAN|FBAV/i.test(navigator.userAgent);
+  if (isMobile) {
+    e.preventDefault();
+    // Try native application protocol direct execution
+    window.location.href = customScheme;
+    
+    // Quick fallback to the standard wa.me URL inside the same browser viewport (Instagram/TikTok block custom schemes unless run in self frame)
+    setTimeout(function() {
+      window.location.href = waMeUrl;
+    }, 350);
+  } else {
+    // Desktop devices
+    e.preventDefault();
+    window.open(waMeUrl, '_blank', 'noopener,noreferrer');
+  }
 });
 
 document.addEventListener('keydown',function(e){

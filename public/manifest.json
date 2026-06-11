@@ -2,11 +2,14 @@
   "name": "Kisii Dreadlocks Parlor",
   "short_name": "Kisii Dreadlocks",
   "description": "Premium locs, nails, and beauty studio in Kisii Town, Kenya.",
-  "start_url": "/",
+  "id": "/?pwa=2",
+  "version": "2.0.0",
+  "start_url": "/?pwa=2",
   "display": "standalone",
   "background_color": "#0a0a0a",
   "theme_color": "#c9a84c",
   "orientation": "portrait-primary",
+  "categories": ["beauty", "lifestyle", "business"],
   "icons": [
     {
       "src": "logo.png",

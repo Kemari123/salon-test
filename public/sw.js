@@ -1,9 +1,9 @@
-const CACHE_NAME = 'kisii-dreadlocks-v1';
+const CACHE_NAME = 'kisii-dreadlocks-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/style.css',
-  '/script.js',
+  '/style.css?v=2.0.0',
+  '/script.js?v=2.0.0',
   '/logo.png',
   '/manifest.json'
 ];
@@ -12,7 +12,14 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
+      // Individually cache each asset and catch potential 404s/network errors safely
+      // so a single missing or renamed asset does not block the Service Worker from registering successfully.
+      const cachePromises = ASSETS_TO_CACHE.map((url) => {
+        return cache.add(url).catch((err) => {
+          console.warn('[ServiceWorker] Skip non-critical style/asset cache failure:', url, err);
+        });
+      });
+      return Promise.all(cachePromises);
     })
   );
   self.skipWaiting();

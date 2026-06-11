@@ -37,10 +37,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   
   <!-- Preloads for performance -->
-  <link rel="preload" href="style.css" as="style" />
-  <link rel="preload" href="script.js" as="script" />
+  <link rel="preload" href="/style.css" as="style" />
+  <link rel="preload" href="/script.js" as="script" />
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/style.css" />
 
   <!-- Local JSON-LD Business Schema for Google Local Search SEO -->
   <script type="application/ld+json">
@@ -138,6 +138,7 @@
         <li><a href="#gallery"  class="nl"><i class="fas fa-images"></i>Gallery</a></li>
         <li><a href="#contact"  class="nl"><i class="fas fa-phone"></i>Contact</a></li>
         <li><a href="#location" class="nl"><i class="fas fa-map-marker-alt"></i>Location</a></li>
+        <li id="menuInstallLi" style="display: none;"><a href="#" id="menuInstallBtn" class="nl" style="color: var(--gold); border-bottom: 1px solid var(--border); font-weight: 700;"><i class="fas fa-download"></i>Install App</a></li>
 
         <!-- Mobile Drawer Footer Tools (Only visible inside mobile menu drawer) -->
         <li class="nav-drawer-footer">
@@ -634,9 +635,45 @@
     </div>
   </footer>
 
+  <!-- PWA Install Banner (Highly visible, styled premiumly) -->
+  <div class="pwa-banner" id="pwaBanner" style="display: none;">
+    <div class="pwa-content">
+      <img src="/logo.png" alt="Kisii Dreadlocks Parlor Logo" class="pwa-logo" />
+      <div class="pwa-text">
+        <h4>Install Dreadlocks App</h4>
+        <p>Get fast 1-tap booking and offline access!</p>
+      </div>
+    </div>
+    <div class="pwa-actions">
+      <button class="pwa-btn pwa-close" id="pwaCloseBtn">Later</button>
+      <button class="pwa-btn pwa-install" id="pwaInstallBtn">Install</button>
+    </div>
+  </div>
+
+  <!-- TikTok/Instagram WhatsApp Redirect Helper Backdrop & Modal -->
+  <div class="wa-backdrop" id="waBackdrop">
+    <div class="wa-helper-modal">
+      <div class="wa-header">
+        <i class="fab fa-whatsapp"></i>
+        <h3>WhatsApp Connector</h3>
+      </div>
+      <div class="wa-body">
+        <p>You are visiting us via <strong>TikTok/Instagram browser</strong>, which sometimes restricts opening WhatsApp directly.</p>
+        <p>Tap below to automatically copy Falcom's booking number so you can message or call us immediately:</p>
+        <strong>0715 410 986</strong>
+      </div>
+      <div class="wa-helper-btns">
+        <button class="wa-helper-btn wa-btn-copy" id="waCopyNumberBtn"><i class="fas fa-copy"></i> Copy booking details</button>
+        <button class="wa-helper-btn wa-btn-open" id="waOpenDirectBtn"><i class="fab fa-whatsapp"></i> Try opening WhatsApp</button>
+        <a href="tel:+254715410986" class="wa-helper-btn wa-btn-call"><i class="fas fa-phone"></i> Call parlor directly</a>
+      </div>
+      <span class="wa-btn-cancel" id="waCancelBtn">Close</span>
+    </div>
+  </div>
+
   <!-- Floating WhatsApp — fully visible on mobile -->
   <a href="https://api.whatsapp.com/send?phone=254715410986&amp;text=Hello%20Kisii%20Dreadlocks%20Parlor,%20I%20would%20like%20to%20book%20an%20appointment."
-     target="_blank" rel="noopener" class="float-wa" aria-label="Chat on WhatsApp">
+     target="_blank" rel="noopener" class="float-wa" id="floatWa" aria-label="Chat on WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
 
@@ -645,6 +682,6 @@
     <i class="fas fa-chevron-up"></i>
   </button>
 
-  <script src="script.js"></script>
+  <script type="module" src="/script.js"></script>
 </body>
 </html>

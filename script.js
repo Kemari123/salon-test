@@ -3,6 +3,15 @@
 function id(s){return document.getElementById(s)}
 function qsa(s){return document.querySelectorAll(s)}
 
+// Safe page load handler to prevent load events missing in deferred modules
+function onPageLoad(fn) {
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    fn();
+  } else {
+    window.addEventListener('load', fn);
+  }
+}
+
 /* ══ NAVBAR + MOBILE DRAWER (DASHBOARD) SCROLL ══ */
 var navToggle = id('navToggle');
 var navLinks  = id('navLinks');
@@ -90,7 +99,7 @@ var GAL_MAX=20, GAL_BATCH=6;
 var galLoaded=[], galShown=0;
 var galGrid=id('galGrid');
 
-window.addEventListener('load',function(){
+onPageLoad(function(){
   if(!galGrid) return;
   var done=0, found=[];
   for(var i=1;i<=GAL_MAX;i++){
@@ -209,10 +218,11 @@ function arrs(){
 
 var lb=id('lightbox');
 if(lb){
-  id('lbClose').addEventListener('click',closeLb);
+  var lbc = id('lbClose'), lbp = id('lbPrev'), lbn = id('lbNext');
+  if(lbc) lbc.addEventListener('click',closeLb);
   lb.addEventListener('click',function(e){if(e.target===lb)closeLb()});
-  id('lbPrev').addEventListener('click',function(e){e.stopPropagation();if(lbIdx>0)openLb(lbIdx-1)});
-  id('lbNext').addEventListener('click',function(e){e.stopPropagation();if(lbIdx<galLoaded.length-1)openLb(lbIdx+1)});
+  if(lbp) lbp.addEventListener('click',function(e){e.stopPropagation();if(lbIdx>0)openLb(lbIdx-1)});
+  if(lbn) lbn.addEventListener('click',function(e){e.stopPropagation();if(lbIdx<galLoaded.length-1)openLb(lbIdx+1)});
   var tx=0;
   lb.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
   lb.addEventListener('touchend',function(e){
@@ -259,3 +269,165 @@ var obs=new IntersectionObserver(function(entries){
   });
 },{threshold:.1});
 els.forEach(function(el){obs.observe(el)});
+
+/* ══ REGISTER SERVICE WORKER FOR PWA INSTALLABILITY ══ */
+if ('serviceWorker' in navigator) {
+  onPageLoad(function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(reg) {
+        console.log('ServiceWorker registered successfully with scope: ', reg.scope);
+      })
+      .catch(function(err) {
+        console.error('ServiceWorker registration failed: ', err);
+      });
+  });
+}
+
+/* ══ PWA INSTALL PROMPT PROMOTION ══ */
+var deferredPrompt = null;
+var pwaBanner = id('pwaBanner');
+var pwaInstallBtn = id('pwaInstallBtn');
+var pwaCloseBtn = id('pwaCloseBtn');
+var menuInstallLi = id('menuInstallLi');
+var menuInstallBtn = id('menuInstallBtn');
+
+window.addEventListener('beforeinstallprompt', function(e) {
+  // Prevent default install bar from showing up so we use our elegant dashboard promo
+  e.preventDefault();
+  deferredPrompt = e;
+  
+  // Bring up navigation menu install item
+  if (menuInstallLi) menuInstallLi.style.display = 'block';
+  
+  // Show premium float banner for first-time session visitors
+  if (pwaBanner && !sessionStorage.getItem('pwaDismissed')) {
+    pwaBanner.style.display = 'flex';
+  }
+});
+
+function triggerPwaInstall() {
+  if (!deferredPrompt) {
+    // If not installable directly, trigger instructions
+    alert("To install our App:\n- On Safari (iPhone): Tap 'Share' icon and choose 'Add to Home Screen'.\n- On Chrome (Android/PC): Tap Chrome's settings (3-dots) and choose 'Add to Home Screen' or 'Install App'.");
+    return;
+  }
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(function(result) {
+    console.log('PWA installation choice:', result.outcome);
+    deferredPrompt = null;
+    hidePwaPromos();
+  });
+}
+
+function hidePwaPromos() {
+  if (pwaBanner) pwaBanner.style.display = 'none';
+  if (menuInstallLi) menuInstallLi.style.display = 'none';
+}
+
+if (pwaInstallBtn) pwaInstallBtn.addEventListener('click', triggerPwaInstall);
+if (menuInstallBtn) {
+  menuInstallBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    closeMenu();
+    triggerPwaInstall();
+  });
+}
+
+if (pwaCloseBtn) {
+  pwaCloseBtn.addEventListener('click', function() {
+    sessionStorage.setItem('pwaDismissed', 'true');
+    if (pwaBanner) pwaBanner.style.display = 'none';
+  });
+}
+
+window.addEventListener('appinstalled', function() {
+  console.log('Kisii Dreadlocks Parlor App successfully installed!');
+  hidePwaPromos();
+});
+
+/* ══ TIKTOK / INSTAGRAM SOCIAL BROWSER WHATSAPP HELPER ══ */
+function isSocialInAppBrowser() {
+  var ua = navigator.userAgent || navigator.vendor || window.opera;
+  var uaLower = ua.toLowerCase();
+  return (
+    uaLower.includes('tiktok') ||
+    uaLower.includes('musical_ly') ||
+    uaLower.includes('instagram') ||
+    uaLower.includes('fb_iab') ||
+    uaLower.includes('fban') ||
+    uaLower.includes('fbav')
+  );
+}
+
+var waBackdrop = id('waBackdrop');
+var waCopyNumberBtn = id('waCopyNumberBtn');
+var waOpenDirectBtn = id('waOpenDirectBtn');
+var waCancelBtn = id('waCancelBtn');
+var currentWaLink = '';
+
+document.addEventListener('click', function(e) {
+  var a = e.target.closest('a[href*="whatsapp.com"], a[href*="wa.me"]');
+  if (!a) return;
+  
+  if (isSocialInAppBrowser()) {
+    e.preventDefault();
+    currentWaLink = a.getAttribute('href');
+    if (waBackdrop) {
+      waBackdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+});
+
+function closeWaHelper() {
+  if (waBackdrop) {
+    waBackdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+if (waCancelBtn) waCancelBtn.addEventListener('click', closeWaHelper);
+if (waBackdrop) {
+  waBackdrop.addEventListener('click', function(e) {
+    if (e.target === waBackdrop) closeWaHelper();
+  });
+}
+
+if (waCopyNumberBtn) {
+  waCopyNumberBtn.addEventListener('click', function() {
+    var num = "0715410986";
+    navigator.clipboard.writeText(num).then(function() {
+      var origHTML = waCopyNumberBtn.innerHTML;
+      waCopyNumberBtn.innerHTML = '<i class="fas fa-check"></i> Copied to Clipboard!';
+      setTimeout(function() {
+        waCopyNumberBtn.innerHTML = origHTML;
+      }, 2000);
+    }).catch(function() {
+      // Inline visual fallback if clipboard is disabled in in-app webview
+      var prevText = waCopyNumberBtn.innerText;
+      waCopyNumberBtn.innerText = "Dial Falcom: 0715 410 986";
+      setTimeout(function() {
+        waCopyNumberBtn.innerHTML = '<i class="fas fa-copy"></i> Copy booking details';
+      }, 5000);
+    });
+  });
+}
+
+if (waOpenDirectBtn) {
+  waOpenDirectBtn.addEventListener('click', function() {
+    // Try forcing custom protocol to invoke the local OS app directly, bypassing the web browser blocker
+    var textMessage = "Hello Kisii Dreadlocks Parlor, I would like to book an appointment.";
+    var directCustomScheme = "whatsapp://send?phone=254715410986&text=" + encodeURIComponent(textMessage);
+    
+    window.location.href = directCustomScheme;
+    
+    // Quick fallback to the standard link if custom scheme is unhandled
+    setTimeout(function() {
+      if (currentWaLink) {
+        window.location.href = currentWaLink;
+      }
+    }, 600);
+  });
+}
+
+

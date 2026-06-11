@@ -228,6 +228,21 @@ document.addEventListener('keydown',function(e){
   if(e.key==='ArrowRight'&&lbIdx<galLoaded.length-1) openLb(lbIdx+1);
 });
 
+
+/* ══ THEME TOGGLE (LIGHT & DARK ACCENTS) ══ */
+var themeToggle = id('themeToggle');
+if(themeToggle) {
+  var savedTheme = localStorage.getItem('theme');
+  if(savedTheme === 'light') {
+    document.body.classList.add('light-theme');
+  }
+  
+  themeToggle.addEventListener('click', function() {
+    var isLight = document.body.classList.toggle('light-theme');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  });
+}
+
 /* ══ FOOTER YEAR ══ */
 var yr=id('yr');
 if(yr) yr.textContent=new Date().getFullYear();

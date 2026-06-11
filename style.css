@@ -26,6 +26,25 @@
   --wrap: 1160px;
 }
 
+body.light-theme {
+  --black:   #ffffff;
+  --dark:    #faf8f5;        /* elegant warm linen-white */
+  --dark2:   #f4eee2;        /* slightly darker warm linen */
+  --dark3:   #ebe3d2;        /* rich cream-bone white */
+  --border:  rgba(168, 133, 46, 0.28); /* warm gold border line */
+  --bs:      rgba(0, 0, 0, 0.08);       /* shadow/divider line in light mode */
+  --white:   #1a150b;       /* deep espresso dark brown/black for headings */
+  --cream:   #1a150b;       /* secondary headings */
+  --muted:   #736c5d;       /* muted elegant gold-brown */
+  --text:    #3c362a;       /* highly legible warm coffee color for body text */
+  --nav-bg:  rgba(250, 248, 245, 0.95); /* light blurred navigation */
+}
+
+/* global smooth color fading transition for a premium feel */
+body, .navbar, .svc-card, .ccard, .hours-card, .footer, .nav-links, .theme-toggle, .logo-gem, .logo-text, .logo-kisii, .logo-dreadlocks, .logo-parlor, .back-top, .loc-card {
+  transition: background var(--t), color var(--t), border-color var(--t), box-shadow var(--t), border-bottom-color var(--t), border-top-color var(--t);
+}
+
 /* ── reset ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px;-webkit-text-size-adjust:100%}
@@ -55,7 +74,7 @@ button{cursor:pointer;border:none;background:none;font-family:var(--ff-b)}
   position:fixed;top:0;left:0;right:0;
   height:var(--nav-h);
   z-index:9999;
-  background:rgba(10,10,10,0.97);
+  background: var(--nav-bg, rgba(10,10,10,0.97));
   border-bottom:1px solid var(--bs);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
@@ -69,6 +88,57 @@ button{cursor:pointer;border:none;background:none;font-family:var(--ff-b)}
   align-items:center;
   justify-content:space-between;
   gap:12px;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10002;
+}
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--dark3);
+  color: var(--gold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: transform var(--t), background var(--t), color var(--t), border-color var(--t), box-shadow var(--t);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.theme-toggle:hover {
+  transform: scale(1.08) rotate(15deg);
+  background: var(--gold);
+  color: var(--black);
+  border-color: var(--gold);
+  box-shadow: 0 4px 12px rgba(201,168,76,0.3);
+}
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+.theme-toggle .sun-icon {
+  display: none;
+}
+.theme-toggle .moon-icon {
+  display: block;
+}
+body.light-theme .theme-toggle .sun-icon {
+  display: block;
+  animation: spin-soft 4s infinite linear;
+}
+body.light-theme .theme-toggle .moon-icon {
+  display: none;
+}
+
+@keyframes spin-soft {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 .nav-logo{display:flex;align-items:center;gap:12px;flex-shrink:0;text-decoration:none}
 .logo-gem{
@@ -85,6 +155,12 @@ button{cursor:pointer;border:none;background:none;font-family:var(--ff-b)}
   transition: transform var(--t), border-color var(--t), box-shadow var(--t);
   flex-shrink: 0;
   overflow: hidden;
+}
+.logo-gem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .logo-gem .m-letter {
   position: absolute;
@@ -614,7 +690,7 @@ button{cursor:pointer;border:none;background:none;font-family:var(--ff-b)}
     bottom: 0;
     width: 290px;
     height: 100vh;
-    background: rgba(10, 10, 10, 0.98);
+    background: var(--nav-bg, rgba(10, 10, 10, 0.98));
     border-right: 1px solid var(--border);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -644,7 +720,7 @@ button{cursor:pointer;border:none;background:none;font-family:var(--ff-b)}
     align-items: center;
     gap: 12px;
     color: var(--text);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--bs);
     transition: all var(--t);
     text-align: left;
     white-space: nowrap;
@@ -688,7 +764,7 @@ button{cursor:pointer;border:none;background:none;font-family:var(--ff-b)}
     gap: 10px;
     margin-top: auto;
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--bs);
   }
   .nav-drawer-footer p {
     font-size: 0.68rem;

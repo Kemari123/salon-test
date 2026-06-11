@@ -27,17 +27,17 @@
 }
 
 body.light-theme {
-  --black:   #121214;        /* softer matte black (less dark) */
-  --dark:    #18181b;        /* charcoal zinc (less dark) */
-  --dark2:   #222226;        /* medium charcoal (less dark) */
-  --dark3:   #2d2d32;        /* light charcoal grey (less dark) */
-  --border:  rgba(201, 168, 76, 0.28); /* warm gold border line */
-  --bs:      rgba(255, 255, 255, 0.07);       /* subtle white highlights for borders */
-  --white:   #ffffff;       /* keep white headings crisp */
-  --cream:   #f0ebe0;       /* secondary headings */
-  --muted:   #9a958b;       /* readable gold-brown muted text */
-  --text:    #dedbd2;       /* premium soft silver-cream body text */
-  --nav-bg:  rgba(24, 24, 27, 0.96); /* matching charcoal navigation */
+  --black:   #faf9f5;        /* soft matte warm white (almost white) */
+  --dark:    #faf9f5;        /* base background of pages (almost white) */
+  --dark2:   #f4eee0;        /* slightly darker warm linen (for cards/footer backgrounds) */
+  --dark3:   #ebe3cf;        /* slightly darker cream-bone (for inputs/gallery cards) */
+  --border:  rgba(168, 133, 46, 0.28); /* elegant warm gold border line */
+  --bs:      rgba(0, 0, 0, 0.08);       /* shadow/divider line in light mode */
+  --white:   #1a150b;       /* deep espresso dark brown/black for headings */
+  --cream:   #1a150b;       /* secondary headings */
+  --muted:   #736c5d;       /* muted elegant cocoa-gold/brown text */
+  --text:    #3c362a;       /* highly legible warm coffee color for body text */
+  --nav-bg:  rgba(250, 249, 245, 0.96); /* light elegant blurred navigation */
 }
 
 /* global smooth color fading transition for a premium feel */
@@ -686,16 +686,16 @@ body.light-theme .theme-toggle .moon-icon {
     display: flex;
     position: fixed;
     top: var(--nav-h);
-    right: 0;
-    left: auto;
+    right: auto;
+    left: 0;
     width: 50%;
     max-width: 50%;
     height: auto;
     max-height: calc(100dvh - var(--nav-h));
     background: var(--nav-bg, rgba(10, 10, 10, 0.98));
     border-bottom: 1px solid var(--border);
-    border-left: 1px solid var(--border);
-    border-right: none;
+    border-right: 1px solid var(--border);
+    border-left: none;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     z-index: 9998;
@@ -708,7 +708,7 @@ body.light-theme .theme-toggle .moon-icon {
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    box-shadow: -10px 10px 32px rgba(0,0,0,0.5);
+    box-shadow: 10px 10px 32px rgba(0,0,0,0.5);
   }
   .nav-links.open {
     transform: translateY(0);
